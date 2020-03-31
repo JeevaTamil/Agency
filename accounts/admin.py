@@ -1,9 +1,13 @@
 from django.contrib import admin
-from .models import Supplier, Customer, Transport, Bank, PurchaseEntry, State
+from .models import Supplier, Customer, Transport, Bank, PurchaseEntry, State, PaymentEntry
 from datetime import date
 import easy
 
 # Register your models here.
+
+#admin.site.site_header = 'SLTA'
+
+
 @admin.register(Supplier)
 class SupplierAdmin(admin.ModelAdmin):
     actions = None
@@ -61,6 +65,9 @@ class TransportAdmin(admin.ModelAdmin):
 class BankAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
+    class Media:
+        js = ('js/custom_script.js',)
+
 
 @admin.register(PurchaseEntry)
 class PurchaseEntryAdmin(admin.ModelAdmin):
@@ -70,8 +77,9 @@ class PurchaseEntryAdmin(admin.ModelAdmin):
 
     list_display = ['S_No', 'bill_no', 'bill_date', 'supplier', 'city',
                     'goods_val', 'd_percent', 'd_value_', 'tax', 'tax_value', 'total', 'transport', 'lr_no']
-    #readonly_fields = ['S_No', 'total']
-    #fields = ['total_calc']
+    readonly_fields = ['S_No']
+    # fields = ['S_No', 'bill_no', 'bill_date', 'supplier', 'city',
+    #         'goods_val', 'd_percent', 'd_value_', 'tax', 'tax_value', 'total', 'transport', 'lr_no']
 
     def total(self, obj):
         val = obj.goods_val
@@ -133,3 +141,9 @@ class PurchaseEntryAdmin(admin.ModelAdmin):
 class StateAdmin(admin.ModelAdmin):
     actions = None
     search_fields = ['state_name', ]
+
+
+@admin.register(PaymentEntry)
+class PaymentEntryAdmin(admin.ModelAdmin):
+    actions = None
+    autocomplete_fields = ['supplier', 'bank']

@@ -105,3 +105,19 @@ class PurchaseEntry(models.Model):
 
     # def __str__(self):
     #     return self.supplier
+
+    class Meta:
+            verbose_name_plural = 'Purchase Entries'
+
+
+class PaymentEntry(models.Model):
+    bill_no = models.CharField(max_length=20)
+    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
+    payment_type = models.CharField(max_length=256, choices=[(
+        'cash', 'cash'), ('cheque', 'cheque'), ('NEFT', 'NEFT')])
+    bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
+    cheque_no = models.CharField(max_length=25)
+    amount = models.IntegerField()
+
+    class Meta:
+        verbose_name_plural = 'Payment Entries'
