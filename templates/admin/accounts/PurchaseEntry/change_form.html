@@ -1,0 +1,6 @@
+{% extends 'admin/change_form.html' %} {% block submit_buttons_bottom %}
+<!-- <div>
+  <button>Custom Button</button>
+</div> -->
+
+{{ suppliers|json_script:"suppliers-data" }} {{ block.super }} {% endblock %}
